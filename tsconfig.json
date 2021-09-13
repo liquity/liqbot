@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "target": "ES2019",
+    "lib": ["ES2019"],
+    "module": "CommonJS",
+    "strict": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true
+  }
+}

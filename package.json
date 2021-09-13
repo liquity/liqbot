@@ -1,0 +1,34 @@
+{
+  "name": "liquity-liqbot",
+  "version": "0.0.0-semantic-release",
+  "description": "Simple liquidation bot for Liquity",
+  "keywords": [
+    "Liquity",
+    "protocol",
+    "DeFi",
+    "Ethereum"
+  ],
+  "homepage": "https://github.com/liquity/liqbot",
+  "author": "Daniel Simon <dani@liquity.org>",
+  "license": "MIT",
+  "main": "src/liqbot.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node src/liqbot.ts"
+  },
+  "dependencies": {
+    "@liquity/lib-base": "^3.0.0",
+    "@liquity/lib-ethers": "^3.3.1",
+    "chalk": "^4.1.0",
+    "ethers": "^5.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^16.9.1",
+    "@typescript-eslint/eslint-plugin": "^4.31.0",
+    "@typescript-eslint/parser": "^4.31.0",
+    "eslint": "^7.32.0",
+    "prettier": "^2.4.0",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
+  }
+}
