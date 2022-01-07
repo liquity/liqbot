@@ -52,7 +52,7 @@ export interface LiqbotConfig {
    * When using Flashbots, this is 0 by default, as the miner will be compensated through
    * transferring a portion of the liquidation reward instead.
    *
-   * When not using Flashbots, the default is 5 Gwei (i.e. 5 million wei).
+   * When not using Flashbots, the default is 5 Gwei (i.e. 5 billion wei).
    */
   maxPriorityFeePerGas?: number;
 
