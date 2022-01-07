@@ -2,7 +2,7 @@ import assert from "assert";
 
 import chalk from "chalk";
 import { BigNumber } from "ethers";
-import { Decimal, LUSD_LIQUIDATION_RESERVE, Trove } from "@liquity/lib-base";
+import { Decimal } from "@liquity/lib-base";
 import { BlockPolledLiquityStore, EthersLiquityWithStore } from "@liquity/lib-ethers";
 
 import config from "../config.js";
@@ -90,13 +90,7 @@ export const tryToLiquidate = async (
       maxFeePerGas.mul(liquidation.rawPopulatedTransaction.gasLimit).toHexString()
     ).mul(store.state.price);
 
-    const total = troves.reduce((a, b) => a.add(b), new Trove());
-
-    // TODO miner cut
-    const expectedCompensation = total.collateral
-      .mul(0.005)
-      .mul(store.state.price)
-      .add(LUSD_LIQUIDATION_RESERVE.mul(troves.length));
+    const expectedCompensation = executor.estimateCompensation(troves, store.state.price);
 
     if (worstCost.gt(expectedCompensation)) {
       // In reality, the TX cost will be lower than this thanks to storage refunds, but let's be

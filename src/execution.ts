@@ -18,7 +18,15 @@ import {
   RelayResponseError
 } from "@flashbots/ethers-provider-bundle";
 
-import { Decimal, LiquidationDetails, MinedReceipt } from "@liquity/lib-base";
+import {
+  Decimal,
+  Decimalish,
+  LiquidationDetails,
+  LUSD_LIQUIDATION_RESERVE,
+  MinedReceipt,
+  Trove
+} from "@liquity/lib-base";
+
 import { BlockPolledLiquityStore, PopulatedEthersLiquityTransaction } from "@liquity/lib-ethers";
 
 import config from "../config.js";
@@ -62,12 +70,30 @@ export type ExecutionResult =
   | { status: "succeeded"; rawReceipt: providers.TransactionReceipt; details: ExecutionDetails };
 
 export interface Executor {
+  estimateCompensation(troves: Trove[], price: Decimalish): Decimal;
+
   execute(
     liquidation: PopulatedEthersLiquityTransaction<LiquidationDetails>
   ): Promise<ExecutionResult>;
 }
 
+const addTroves = (troves: Trove[]) => troves.reduce((a, b) => a.add(b), new Trove());
+
+const expectedCompensation = (
+  troves: Trove[],
+  price: Decimalish,
+  minerCutRate: Decimalish = Decimal.ZERO
+) =>
+  addTroves(troves)
+    .collateral.mulDiv(price, 200) // 0.5% of collateral converted to USD
+    .mul(Decimal.ONE.sub(minerCutRate)) // deduct miner's cut
+    .add(LUSD_LIQUIDATION_RESERVE.mul(troves.length));
+
 class RawExecutor implements Executor {
+  estimateCompensation(troves: Trove[], price: Decimalish): Decimal {
+    return expectedCompensation(troves, price);
+  }
+
   async execute(
     liquidation: PopulatedEthersLiquityTransaction<LiquidationDetails>
   ): Promise<MinedReceipt<providers.TransactionReceipt, LiquidationDetails>> {
@@ -231,6 +257,10 @@ class LiqbotExecutor implements Executor {
         minerCut: details.collateralGasCompensation.mul(this._minerCutRate)
       }
     };
+  }
+
+  estimateCompensation(troves: Trove[], price: Decimalish): Decimal {
+    return expectedCompensation(troves, price, this._minerCutRate);
   }
 }
 
