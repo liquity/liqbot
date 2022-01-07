@@ -10,5 +10,8 @@
     "ecmaVersion": 2021,
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint"]
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "@typescript-eslint/explicit-module-boundary-types": "warn"
+  }
 }

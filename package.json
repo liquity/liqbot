@@ -11,24 +11,34 @@
   "homepage": "https://github.com/liquity/liqbot",
   "author": "Daniel Simon <dani@liquity.org>",
   "license": "MIT",
-  "main": "src/liqbot.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node src/liqbot.ts"
+    "start": "node --loader ts-node/esm src/index.ts",
+    "deploy": "node --loader ts-node/esm scripts/deploy.ts",
+    "postinstall": "run-s postinstall:*",
+    "postinstall:config": "node --loader ts-node/esm scripts/initConfig.ts",
+    "postinstall:contracts": "yarn --cwd contracts install"
   },
   "dependencies": {
+    "@flashbots/ethers-provider-bundle": "^0.4.2",
     "@liquity/lib-base": "^3.0.0",
     "@liquity/lib-ethers": "^3.3.1",
-    "chalk": "^4.1.0",
-    "ethers": "^5.4.3"
+    "@liquity/providers": "^1.0.1",
+    "chalk": "^5.0.0",
+    "ethers": "^5.5.2",
+    "ws": "^8.3.0"
   },
   "devDependencies": {
-    "@types/node": "^16.9.1",
-    "@typescript-eslint/eslint-plugin": "^4.31.0",
-    "@typescript-eslint/parser": "^4.31.0",
-    "eslint": "^7.32.0",
-    "prettier": "^2.4.0",
-    "ts-node": "^10.2.1",
-    "typescript": "^4.4.3"
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.11.12",
+    "@types/ws": "^8.2.2",
+    "@typescript-eslint/eslint-plugin": "^5.6.0",
+    "@typescript-eslint/parser": "^5.6.0",
+    "eslint": "^8.4.1",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.5.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.3"
   }
 }

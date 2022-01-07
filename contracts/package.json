@@ -1,0 +1,24 @@
+{
+  "name": "liquity-liqbot-contracts",
+  "version": "0.0.0-semantic-release",
+  "description": "Smart contracts of simple liquidation bot for Liquity",
+  "keywords": [
+    "Liquity",
+    "protocol",
+    "DeFi",
+    "Ethereum"
+  ],
+  "homepage": "https://github.com/liquity/liqbot",
+  "author": "Daniel Simon <dani@liquity.org>",
+  "license": "MIT",
+  "scripts": {
+    "build": "hardhat compile",
+    "deploy": "hardhat deploy"
+  },
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.3",
+    "hardhat": "^2.7.1",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.3"
+  }
+}
